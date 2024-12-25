@@ -7,6 +7,7 @@ import 'package:syncara/app/player/components/artwork.dart';
 import 'package:syncara/app/player/components/lyrics.dart';
 import 'package:syncara/app/player/components/seekbar.dart';
 import 'package:syncara/app/player/components/sleep_time_indicator.dart';
+import 'package:syncara/app/player/components/video.dart';
 import 'package:syncara/app/player/player_menu_sheet.dart';
 import 'package:syncara/app/player/player_queue_sheet.dart';
 import 'package:syncara/model/media.dart';
@@ -23,7 +24,7 @@ class LargePlayerSheet extends StatefulWidget {
 
 class _LargePlayerSheetState extends State<LargePlayerSheet>
     with TickerProviderStateMixin {
-  late final tabController = TabController(length: 3, vsync: this)
+  late final tabController = TabController(length: 3, vsync: this,initialIndex: 2)
     ..addListener(() => setState(() {}));
 
   Box<Preferences> get preferences {
@@ -79,7 +80,7 @@ class _LargePlayerSheetState extends State<LargePlayerSheet>
               children: [
                 const Artwork(),
                 const Lyrics(),
-                const Center(child: Text("Soon")),
+                const Video(),
               ],
             ),
           ),

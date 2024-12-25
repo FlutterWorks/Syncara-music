@@ -7,9 +7,11 @@ import 'package:syncara/clients/yt_media_client.dart';
 import 'package:syncara/model/common.dart';
 import 'package:syncara/model/media.dart';
 import 'package:syncara/services/downloader_service.dart';
+import 'package:media_kit/media_kit.dart' as mk;
 
 abstract class BaseMediaClient {
   Future<AudioSource> getMediaSource(Media media);
+  Future<List<mk.Media>> getVideoTracks(Media media);
 
   Future<List<LyricMetadata>> getAvailableLyrics(Media media);
 
@@ -64,6 +66,16 @@ class MediaClient implements BaseMediaClient {
     }
     // Try online clients (YT For now)
     return await _ytMediaClient.getMediaSource(media);
+  }
+
+  @override
+  Future<List<mk.Media>> getVideoTracks(Media media) async{
+    if (!await DownloaderService.hasInternet) {
+      throw const HttpException("No internet!");
+    }
+
+    return (await _ytMediaClient.getVideoTracks(media));
+
   }
 
   @override

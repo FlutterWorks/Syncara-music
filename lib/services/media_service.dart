@@ -1,5 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:just_audio_media_kit/just_audio_media_kit.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:syncara/provider/player_provider.dart';
 import 'package:syncara/provider/playlist_provider.dart';
 
@@ -26,8 +27,9 @@ class MediaService extends BaseAudioHandler {
         preloadArtwork: true,
       ),
     );
-
+    JustAudioMediaKit.title = "Syncara";
     JustAudioMediaKit.ensureInitialized(iOS: true, macOS: true);
+    MediaKit.ensureInitialized();
   }
 
   /// Call this method for back and forth communication

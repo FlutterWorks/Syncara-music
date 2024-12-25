@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:media_kit/media_kit.dart' as mk;
 import 'package:syncara/clients/media_client.dart';
 import 'package:syncara/model/common.dart';
 import 'package:syncara/model/media.dart';
@@ -58,5 +59,24 @@ class YTMediaClient implements BaseMediaClient {
       },
       [_ytClient.closedCaptions, meta.ytCCObj],
     );
+  }
+
+  @override
+  Future<List<mk.Media>> getVideoTracks(Media media) async {
+    final streams = await compute(
+      (data) async {
+        final ytClient = data[0] as yt.StreamClient;
+        final videoManifest = await ytClient.getManifest(data[1]);
+        return videoManifest.video;
+      },
+      [_ytClient.streamsClient, media.id],
+    );
+
+    return streams
+        .map((e) => mk.Media(
+              e.url.toString(),
+              extras: e.toJson(),
+            ))
+        .toList();
   }
 }
